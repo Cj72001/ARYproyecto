@@ -1,0 +1,25 @@
+<!-- Ejemplo de archivo XML -->
+<clientes>
+    <cliente>
+        <documento>03110567-7</documento>
+        <nombres> Jaime Roberto</nombres>
+        <apellidos>Climaco Navarrete</apellidos>
+        <tarjeta>2346570012456</tarjeta>
+        <tipo>GOLD</tipo>
+        <telefono>22779898</telefono>
+        <poligono>
+        POLYGON ((-90.7695083618164 17.817752838134766, -90.74396514892578 17.817808151245117, ))
+        </poligono>
+    </cliente>
+
+    <clente>
+        <documento>08111567-7</documento>
+        <nombres>Juan Rodolfo</nombres>
+        <apellidos>Perez</apellidos>
+        <tarjeta>68934657001245</tarjeta>
+        <tipo>ELITE</tipo>
+        <telefono>22551004</telefono>
+        <poligono>
+        </poligono>
+    </cliente>
+</clientes>
