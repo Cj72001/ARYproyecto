@@ -42,12 +42,12 @@
           
           <div class="button-container">
             <div class="input-container">
-              <input type="text" placeholder="Ingrese la llave" />
+              <input id="inputLlave" type="text" placeholder="Ingrese la llave" />
             </div>
           </div>
           <div class="button-container">
             <div class="input-container">
-              <input type="text" placeholder="Ingrese delimitador" />
+              <input id="inputDelimitador" type="text" placeholder="Ingrese delimitador" />
             </div>
           </div>
           <div class="button-container">
@@ -71,11 +71,15 @@ const jsonContentDiv = document.getElementById('jsonContent');
 const fileButton = document.getElementById('fileButton');
 const fileInput = document.getElementById('fileInput'); 
 const fileContentDiv = document.getElementById('fileContent');
+const inputLlave = document.getElementById('inputLlave');
+const inputDelimitador = document.getElementById('inputDelimitador');
 
+//Cuando se le da click al botón de buscar archivo
 fileButton.addEventListener('click', function() {
   fileInput.click();
 });
 
+//Evento que se encarga de abrir arhivo
 fileInput.addEventListener('change', function(){
   const file = fileInput.files[0];
   const reader = new FileReader();
@@ -88,30 +92,38 @@ fileInput.addEventListener('change', function(){
 
   reader.readAsText(file);
 });
-
+//Al darle click al botón de convertir a JSON
 function convertToJson() {
   if (!fileContent) {
     console.error('No se ha cargado ningún archivo.');
     return;
   }
+  const llave = inputLlave.value; 
+  const delimitador = inputDelimitador.value;
+  
+  const contenido = {
+		  content: fileContent,
+		  key: llave,
+		  delimit: delimitador
+		};
 
-  fetch('http://localhost:8080/convert', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ content: fileContent })
-  })
-  .then(response => response.json())
-  .then(data => {
-    fileContentDiv.textContent = JSON.stringify(data, null, 2);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+fetch('http://localhost:8080/convert', {
+	  method: 'POST',
+	  headers: {
+	    'Content-Type': 'application/json'
+	  },
+	  body: JSON.stringify(contenido)
+	})
+	  .then(response => response.json())
+	  .then(data => {
+	    console.log('Respuesta recibida:', data);
+	    fileContentDiv.textContent = JSON.stringify(data, null, 2);
+	  })
+	  .catch(error => {
+	    console.error('Error al realizar la solicitud:', error);
+	  });
+
 }
-
-document.getElementById('fileInput').addEventListener('change', loadFile);
 
 //Función para guardar en el sistema de archivos
   async function saveJson() {
