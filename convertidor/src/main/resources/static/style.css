@@ -117,7 +117,6 @@
     align-items: center;
   }
 
- 
 
   .input-container input {
     width: 200px;
@@ -212,9 +211,5 @@
 
   .separador{
     padding-top: 2em;
-  }
-
-  .separador2 {
-    padding-left: 12em;
   }
 

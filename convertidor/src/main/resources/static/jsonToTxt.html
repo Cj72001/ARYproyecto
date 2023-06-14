@@ -23,7 +23,7 @@
     <div class="container-box box">
       <div class=" box div-texto  custom-scrollbar">
         <div id="fileContent">
-
+			
         </div>
 
       </div>
@@ -66,6 +66,7 @@
 <script>
 let fileContent = null;
 const jsonContentDiv = document.getElementById('jsonContent');
+
 const fileButton = document.getElementById('fileButton');
 const fileInput = document.getElementById('fileInput'); 
 const fileContentDiv = document.getElementById('fileContent');
@@ -105,7 +106,7 @@ function convertToJson() {
 		  delimit: delimitador
 		};
 
-fetch('http://localhost:8080/convertToJson', {
+fetch('http://localhost:8080/convertToTxt', {
 	  method: 'POST',
 	  headers: {
 	    'Content-Type': 'application/json'
@@ -114,11 +115,18 @@ fetch('http://localhost:8080/convertToJson', {
 	})
 	  .then(response => response.json())
 	  .then(data => {
-	    console.log('Respuesta recibida:', data);
-	    fileContentDiv.textContent = JSON.stringify(data, null, 2);
+		  fileContentDiv.innerHTML = '';
+		 
+		  // Recorre la lista de objetos y crea elementos para mostrarlos en el div
+		    data.forEach(object => {
+		    	 const pElement = document.createElement('p');
+		    	 pElement.textContent = `${object.documento}${delimitador}${object.nombres}${delimitador}${object.apellidos}${delimitador}${object.numeroTarjeta}${delimitador}${object.tipoTarjeta}${delimitador}${object.telefono}${delimitador}${object.poligono}`;
+		    	fileContentDiv.appendChild(pElement);
+		    });
+		  
 	  })
 	  .catch(error => {
-	    console.error('Error al realizar la solicitud:', error);
+		  fileContentDiv.innerHTML = error.message;
 	  });
 
 }
@@ -126,7 +134,7 @@ fetch('http://localhost:8080/convertToJson', {
 //Función para guardar en el sistema de archivos
   async function saveJson() {
             if (fileContentDiv.textContent) {
-                var filename = 'conversion.json';
+                var filename = 'conversion.txt';
                 await saveAsFile(filename, fileContentDiv.textContent);
             }
         }
@@ -137,9 +145,9 @@ fetch('http://localhost:8080/convertToJson', {
                     suggestedName: filename,
                     types: [
                         {
-                            description: 'Archivos json',
+                            description: 'Archivos de texto',
                            accept: {
-                                'application/json': ['.json'],
+                        	   'text/plain': ['.txt'],
                             },
                         },
                     ],
@@ -149,7 +157,7 @@ fetch('http://localhost:8080/convertToJson', {
                 await writable.write(content);
                 await writable.close();
 
-                console.log('Archivo json guardado exitosamente.');
+                console.log('Archivo de texto guardado exitosamente.');
             } catch (error) {
                 console.error('Error al guardar el archivo:', error);
             }

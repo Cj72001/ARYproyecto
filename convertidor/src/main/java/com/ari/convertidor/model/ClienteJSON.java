@@ -8,7 +8,7 @@ public class ClienteJSON {
 	private String tipoTarjeta = "";
 	private String telefono = "";
 	private String poligono = "";
-	
+
 	public ClienteJSON(String documento, String nombres, String apellidos, String numeroTarjeta, String tipoTarjeta,
 			String telefono, String poligono) {
 		super();
